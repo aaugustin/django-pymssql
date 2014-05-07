@@ -1,6 +1,9 @@
 django-pymssql
 ==============
 
+Goals
+-----
+
 django-pymssql is a Django database backend for Microsoft SQL Server that
 works on non-Windows systems.
 
@@ -16,3 +19,10 @@ maintenance easier.
 .. _django-mssql: http://django-mssql.readthedocs.org/
 .. _pymssql: http://www.pymssql.org/
 .. _django-sqlserver: https://bitbucket.org/cramm/django-sqlserver
+
+License
+-------
+
+django-pymssql is released under the MIT license. See the LICENSE file.
+
+Parts of the code were borrowed from django-sqlserver_.
