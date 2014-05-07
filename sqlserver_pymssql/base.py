@@ -16,12 +16,35 @@ class CursorWrapper(object):
     def __init__(self, cursor):
         self.cursor = cursor
 
-    def execute(self, query, args=None):
-        if args is not None and not isinstance(args, tuple):
-            args = tuple(args)
+    @staticmethod
+    def _fix_query(query):
+        # For Django's inspectdb tests -- a model has a non-ASCII column name.
         if not isinstance(query, str):
             query = query.encode('utf-8')
-        return self.cursor.execute(query, args)
+        # For Django's backends and expressions_regress tests.
+        query = query.replace('%%', '%')
+        return query
+
+    @staticmethod
+    def _fix_params(params):
+        # pymssql requires params to be a tuple, not another kind of iterable.
+        if params is not None and not isinstance(params, tuple):
+            params = tuple(params)
+        return params
+
+    def callproc(self, procname, params=None):
+        params = self._fix_params(params)
+        return self.cursor.callproc(procname, params)
+
+    def execute(self, query, params=None):
+        query = self._fix_query(query)
+        params = self._fix_params(params)
+        return self.cursor.execute(query, params)
+
+    def executemany(self, query, param_list):
+        query = self._fix_query(query)
+        param_list = [self._fix_params(params) for params in param_list]
+        return self.cursor.executemany(query, param_list)
 
     def __getattr__(self, attr):
         return getattr(self.cursor, attr)
