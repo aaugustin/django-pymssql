@@ -1,0 +1,17 @@
+diff --git a/django/db/models/fields/__init__.py b/django/db/models/fields/__init__.py
+index c10e2b1..ea47a3a 100644
+--- a/django/db/models/fields/__init__.py
++++ b/django/db/models/fields/__init__.py
+@@ -1424,7 +1424,11 @@ class BinaryField(Field):
+         value = super(BinaryField, self
+             ).get_db_prep_value(value, connection, prepared)
+         if value is not None:
+-            return connection.Database.Binary(value)
++            # serializers_regress tests fail without this
++            try:
++                return connection.Database.Binary(value)
++            except AttributeError:
++                return bytes(value)
+         return value
+ 
+     def value_to_string(self, obj):
