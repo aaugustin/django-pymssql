@@ -1,6 +1,10 @@
 import pymssql as Database
 
-from sqlserver_ado.base import DatabaseWrapper as _DatabaseWrapper
+from sqlserver_ado.base import (
+    DatabaseCreation as _DatabaseCreation,
+    DatabaseFeatures as _DatabaseFeatures,
+    DatabaseOperations as _DatabaseOperations,
+    DatabaseWrapper as _DatabaseWrapper)
 
 from .operations import DatabaseOperations
 
@@ -54,13 +58,33 @@ class CursorWrapper(object):
         return iter(self.cursor)
 
 
+class DatabaseOperations(_DatabaseOperations):
+
+    compiler_module = "sqlserver_pymssql.compiler"
+
+
+class DatabaseFeatures(_DatabaseFeatures):
+
+    can_introspect_max_length = False
+    can_introspect_null = False
+
+
+class DatabaseCreation(_DatabaseCreation):
+
+    def create_test_db(self, *args, **kwargs):
+        from . import known_django_test_failures                        # noqa
+        super(DatabaseCreation, self).create_test_db(*args, **kwargs)
+
+
 class DatabaseWrapper(_DatabaseWrapper):
 
     Database = Database
 
     def __init__(self, *args, **kwargs):
         super(DatabaseWrapper, self).__init__(*args, **kwargs)
+        self.features = DatabaseFeatures(self)
         self.ops = DatabaseOperations(self)
+        self.creation = DatabaseCreation(self)
 
     def get_connection_params(self):
         settings_dict = self.settings_dict
@@ -88,8 +112,9 @@ class DatabaseWrapper(_DatabaseWrapper):
 
     def __get_dbms_version(self, make_connection=True):
         """
-        Returns the 'DBMS Version' string, or ''. If a connection to the database has not already
-        been established, a connection will be made when `make_connection` is True.
+        Returns the 'DBMS Version' string, or ''. If a connection to the
+        database has not already been established, a connection will be made
+        when `make_connection` is True.
         """
         if not self.connection and make_connection:
             self.connect()
