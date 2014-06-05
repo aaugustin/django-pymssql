@@ -20,7 +20,6 @@ failing_tests = [
     # Some tests are known to fail with django-mssql.
     'aggregation.tests.BaseAggregateTestCase.test_dates_with_aggregation',
     'aggregation_regress.tests.AggregationTests.test_more_more_more',
-    'inspectdb.tests.InspectDBTestCase.test_number_field_types',
 
     # pymssql doesn't handle binary data correctly.
     'backends.tests.LastExecutedQueryTest.test_query_encoding',
@@ -35,7 +34,8 @@ failing_tests = [
     # TODO -- figure out why this test fails.
     'timezones.tests.NewDatabaseTests.test_raw_sql',
 
-    # The migrations and schema tests also fail massively at this time.
+    # The migrations and schema tests have 24 errors and 11 failures at this
+    # time. All 24 errors and 3 failures also exist in django-mssql.
 ]
 
 

@@ -67,6 +67,7 @@ class DatabaseFeatures(_DatabaseFeatures):
 
     can_introspect_max_length = False
     can_introspect_null = False
+    can_introspect_decimal_field = False
 
 
 class DatabaseCreation(_DatabaseCreation):
