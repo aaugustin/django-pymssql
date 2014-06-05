@@ -2,6 +2,7 @@ import pymssql as Database
 
 from sqlserver_ado.base import DatabaseWrapper as _DatabaseWrapper
 
+from .operations import DatabaseOperations
 
 DatabaseError = Database.DatabaseError
 IntegrityError = Database.IntegrityError
@@ -59,6 +60,7 @@ class DatabaseWrapper(_DatabaseWrapper):
 
     def __init__(self, *args, **kwargs):
         super(DatabaseWrapper, self).__init__(*args, **kwargs)
+        self.ops = DatabaseOperations(self)
 
     def get_connection_params(self):
         settings_dict = self.settings_dict
