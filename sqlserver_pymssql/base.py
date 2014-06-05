@@ -6,8 +6,6 @@ from sqlserver_ado.base import (
     DatabaseOperations as _DatabaseOperations,
     DatabaseWrapper as _DatabaseWrapper)
 
-from .operations import DatabaseOperations
-
 DatabaseError = Database.DatabaseError
 IntegrityError = Database.IntegrityError
 
