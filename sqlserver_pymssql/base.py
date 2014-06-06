@@ -1,7 +1,6 @@
 import pymssql as Database
 
 from sqlserver_ado.base import (
-    DatabaseCreation as _DatabaseCreation,
     DatabaseFeatures as _DatabaseFeatures,
     DatabaseOperations as _DatabaseOperations,
     DatabaseWrapper as _DatabaseWrapper)
@@ -91,10 +90,6 @@ class DatabaseFeatures(_DatabaseFeatures):
     }
 
 
-
-DatabaseCreation = _DatabaseCreation
-
-
 class DatabaseWrapper(_DatabaseWrapper):
 
     Database = Database
@@ -103,7 +98,6 @@ class DatabaseWrapper(_DatabaseWrapper):
         super(DatabaseWrapper, self).__init__(*args, **kwargs)
         self.features = DatabaseFeatures(self)
         self.ops = DatabaseOperations(self)
-        self.creation = DatabaseCreation(self)
 
     def get_connection_params(self):
         settings_dict = self.settings_dict
