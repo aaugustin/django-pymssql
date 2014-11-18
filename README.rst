@@ -26,6 +26,26 @@ As of June 5th, 2014, django-pymssql almost_ passes Django's test suite with:
 - The development version of pymssql
 - The development version of django-mssql
 
+Usage
+-----
+
+django-pymssql provides a Django database engine called ``sqlserver_pymssql``::
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'sqlserver_pymssql',
+            'HOST': '...',
+            'NAME': '...',
+            'USER': '...',
+            'PASSWORD': '...','
+            'OPTIONS': {
+                #
+            },
+        },
+    }
+
+Any parameter accepted by `pymssql.connect`_ can be passed in OPTIONS.
+
 Alternatives
 ------------
 
@@ -49,5 +69,6 @@ Some database version checking code was borrowed from django-sqlserver_.
 .. _django-pyodbc: https://github.com/lionheart/django-pyodbc/
 .. _django-sqlserver: https://bitbucket.org/cramm/django-sqlserver
 .. _pymssql: http://www.pymssql.org/
+.. _pymssql.connect: http://pymssql.org/en/latest/ref/pymssql.html#pymssql.connect
 .. _pyodbc: https://github.com/mkleehammer/pyodbc
 .. _python-tds: https://github.com/denisenkom/pytds

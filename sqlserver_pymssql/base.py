@@ -108,13 +108,16 @@ class DatabaseWrapper(_DatabaseWrapper):
 
     def get_connection_params(self):
         settings_dict = self.settings_dict
-        return {
+        params = {
             'host': settings_dict['HOST'],
             'database': settings_dict['NAME'],
             'user': settings_dict['USER'],
             'password': settings_dict['PASSWORD'],
-            'timeout': self.command_timeout,
         }
+        options = settings_dict.get('OPTIONS', {})
+        params.update(options)
+        return params
+
 
     def get_new_connection(self, conn_params):
         return Database.connect(**conn_params)
