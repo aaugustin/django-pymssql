@@ -77,35 +77,23 @@ class DatabaseFeatures(_DatabaseFeatures):
     can_introspect_null = False
     can_introspect_decimal_field = False
 
-    failing_tests = {
-
-        # Some tests are known to fail with django-mssql.
-        'aggregation.tests.BaseAggregateTestCase'
-        '.test_dates_with_aggregation': [(1, 6), (1, 7)],
-        'aggregation_regress.tests.AggregationTests'
-        '.test_more_more_more': [(1, 6), (1, 7)],
+    failing_tests = _DatabaseFeatures.failing_tests.copy()
+    failing_tests.update({
 
         # pymssql doesn't handle binary data correctly.
         'backends.tests.LastExecutedQueryTest'
-        '.test_query_encoding': [(1, 6), (1, 7)],
+        '.test_query_encoding': [(1, 7)],
         'model_fields.tests.BinaryFieldTests'
-        '.test_set_and_retrieve': [(1, 6), (1, 7)],
+        '.test_set_and_retrieve': [(1, 7)],
 
         # pymssql doesn't check parameter counts.
         'backends.tests.ParameterHandlingTest'
-        '.test_bad_parameter_count': [(1, 6), (1, 7)],
+        '.test_bad_parameter_count': [(1, 7)],
 
-        # MSSQL throws an arithmetic overflow error.
-        'expressions_regress.tests.ExpressionOperatorTests'
-        '.test_righthand_power': [(1, 6), (1, 7)],
+        # Several tests that depend on schema alteration fail at this time.
+        # This should get fixed in django-mssql when it supports migrations.
 
-        # TODO -- figure out why this test fails.
-        'timezones.tests.NewDatabaseTests'
-        '.test_raw_sql': [(1, 6), (1, 7)],
-
-        # The migrations and schema tests have 24 errors and 11 failures at
-        # this time. All 24 errors and 3 failures also exist in django-mssql.
-    }
+    })
 
 
 class DatabaseWrapper(_DatabaseWrapper):
