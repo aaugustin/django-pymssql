@@ -1,3 +1,7 @@
+import datetime
+
+from django.utils import timezone
+
 import pymssql as Database
 
 from sqlserver_ado.base import (
@@ -13,39 +17,46 @@ VERSION_SQL2005 = 9
 VERSION_SQL2008 = 10
 
 
+def _fix_query(query):
+    # For Django's inspectdb tests -- a model has a non-ASCII column name.
+    if not isinstance(query, str):
+        query = query.encode('utf-8')
+    # For Django's backends and expressions_regress tests.
+    query = query.replace('%%', '%')
+    return query
+
+
+def _fix_value(value):
+    if isinstance(value, datetime.datetime):
+        if timezone.is_aware(value):
+            value = timezone.make_naive(value, timezone.utc)
+    return value
+
+
+def _fix_params(params):
+    if params is not None:
+        # pymssql needs a tuple, not another kind of iterable.
+        params = tuple(_fix_value(value) for value in params)
+    return params
+
+
 class CursorWrapper(object):
 
     def __init__(self, cursor):
         self.cursor = cursor
 
-    @staticmethod
-    def _fix_query(query):
-        # For Django's inspectdb tests -- a model has a non-ASCII column name.
-        if not isinstance(query, str):
-            query = query.encode('utf-8')
-        # For Django's backends and expressions_regress tests.
-        query = query.replace('%%', '%')
-        return query
-
-    @staticmethod
-    def _fix_params(params):
-        # pymssql requires params to be a tuple, not another kind of iterable.
-        if params is not None and not isinstance(params, tuple):
-            params = tuple(params)
-        return params
-
     def callproc(self, procname, params=None):
-        params = self._fix_params(params)
+        params = _fix_params(params)
         return self.cursor.callproc(procname, params)
 
     def execute(self, query, params=None):
-        query = self._fix_query(query)
-        params = self._fix_params(params)
+        query = _fix_query(query)
+        params = _fix_params(params)
         return self.cursor.execute(query, params)
 
     def executemany(self, query, param_list):
-        query = self._fix_query(query)
-        param_list = [self._fix_params(params) for params in param_list]
+        query = _fix_query(query)
+        param_list = [_fix_params(params) for params in param_list]
         return self.cursor.executemany(query, param_list)
 
     def __getattr__(self, attr):
@@ -117,7 +128,6 @@ class DatabaseWrapper(_DatabaseWrapper):
         options = settings_dict.get('OPTIONS', {})
         params.update(options)
         return params
-
 
     def get_new_connection(self, conn_params):
         return Database.connect(**conn_params)
