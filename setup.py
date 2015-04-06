@@ -24,7 +24,7 @@ setuptools.setup(
     url='https://github.com/aaugustin/django-pymssql',
     description=description,
     long_description=long_description,
-    download_url='http://pypi.python.org/pypi/django-resto',
+    download_url='http://pypi.python.org/pypi/django-pymssql',
     packages=[
         'sqlserver_pymssql',
     ],
