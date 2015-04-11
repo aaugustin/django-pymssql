@@ -13,7 +13,7 @@ connect to SQL Server.
 It should support the same versions of Python, Django and SQL Server as
 django-mssql_.
 
-The original use case was to connect to SQL Server from a Django projet
+The original use case was to connect to SQL Server from a Django project
 written in Python 3 and running on Linux.
 
 Status
