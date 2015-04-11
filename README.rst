@@ -28,7 +28,9 @@ django-pymssql 1.7 almost_ passes Django's test suite with:
 Usage
 -----
 
-django-pymssql provides a Django database engine called ``sqlserver_pymssql``::
+django-pymssql provides a Django database engine called ``sqlserver_pymssql``:
+
+.. code-block:: python
 
     DATABASES = {
         'default': {
