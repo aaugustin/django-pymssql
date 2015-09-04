@@ -112,6 +112,7 @@ class DatabaseWrapper(_DatabaseWrapper):
             'database': settings_dict['NAME'],
             'user': settings_dict['USER'],
             'password': settings_dict['PASSWORD'],
+            'port': settings_dict['PORT'],
         }
         options = settings_dict.get('OPTIONS', {})
         params.update(options)
