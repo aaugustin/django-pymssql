@@ -18,7 +18,7 @@ with open(README) as f:
 
 setuptools.setup(
     name='django-pymssql',
-    version='1.7.0',
+    version='1.7.1',
     author='Aymeric Augustin',
     author_email='aymeric.augustin@m4x.org',
     url='https://github.com/aaugustin/django-pymssql',
