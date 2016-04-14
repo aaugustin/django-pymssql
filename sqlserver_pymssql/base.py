@@ -111,9 +111,10 @@ class DatabaseWrapper(_DatabaseWrapper):
             'host': settings_dict['HOST'],
             'database': settings_dict['NAME'],
             'user': settings_dict['USER'],
-            'password': settings_dict['PASSWORD'],
-            'port': settings_dict['PORT'],
+            'password': settings_dict['PASSWORD']
         }
+        if settings_dict['PORT']:
+            params['port'] = settings_dict['PORT']
         options = settings_dict.get('OPTIONS', {})
         params.update(options)
         return params
