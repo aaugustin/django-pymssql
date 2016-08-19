@@ -77,7 +77,7 @@ django-pymssql is released under the MIT license, like django-mssql_. See the
 LICENSE file for details. Note that pymssql_ is released under the LGPL.
 
 Some database version checking code was borrowed from django-sqlserver_ which
-is also released under the MIT license..
+is also released under the MIT license.
 
 .. _almost: https://github.com/aaugustin/django-pymssql/search?q=failing_tests
 .. _django-mssql: http://django-mssql.readthedocs.org/

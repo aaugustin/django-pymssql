@@ -1,3 +1,5 @@
-README
-README.html
 *.pyc
+*.egg-info
+build
+dist
+MANIFEST
