@@ -1,6 +1,9 @@
 django-pymssql
 ==============
 
+**I'm not maintaining this library because I no longer use SQL Server.
+If you'd like to maintain it, please file an issue and let me know.**
+
 Goals
 -----
 
