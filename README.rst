@@ -70,7 +70,7 @@ Clone Django, pymssql, django-mssql and django-pymssql and ``pip install -e
 Create a Django tests settings file with the database engine set to
 ``'sqlserver_pymssql'`` and credentials for a testing SQL Server instance.
 
-Go the the ``tests`` subdirectory in a clone of Django and execute
+Go to the ``tests`` subdirectory in a clone of Django and execute
 ``./runtests.py --settings=test_pymssql``.
 
 License
